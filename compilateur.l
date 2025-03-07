@@ -47,6 +47,7 @@
 /*"main" { printf("tMAIN "); return tMAIN;}
 "const" { printf("tCONST ");return tCONST;}
 "int" { printf("tINT ");return tINT;}
+"while" { printf("tWHILE ");return tWHILE;}
 \t { printf("	");}
 " " { printf(" ");}
 "," { printf("tVIRG ");return tVIRG;}
