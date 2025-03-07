@@ -1,6 +1,7 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
+#include "syntax.tab.h"
 int var[26];
 void yyerror(char *s);
 %}
@@ -17,6 +18,8 @@ void yyerror(char *s);
 %start Main
 %%
 Main: tMAIN tPO tPF tAO Expr tAF {printf("Main detecte\n");}; 
+
+
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | Expr tPVIRG {printf("Expr tPVIRG\n");}
         | tIF tPO Cond tPF tAO Expr tAF tELSE tAO Expr tAF Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
@@ -28,10 +31,14 @@ Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | tWHILE tPO Cond tPF tAO Expr tAF Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
         | Aff{printf("AFF\n");}
         | tPRINT tPO tID tPF {printf("tPRINT tPO tID tPF\n");};
+
+
 Def : tINT Var tEGAL Val {printf("tINT Var tEGAL Val\n");}
       | tINT Var {printf("tINT Var\n");}
       |tCONST Var tEGAL Val {printf("tCONST Var tEGAL Val\n");}
       |tCONST Var {printf("tCONST Var\n");};
+
+
 Val : tPO Val tPF {printf("tPO Val tPF\n");}
      |Val tADD Val {printf("Val tADD Val\n");}
      |Val tSOU Val {printf("Val tSOU Val\n");}
@@ -39,13 +46,19 @@ Val : tPO Val tPF {printf("tPO Val tPF\n");}
      |Val tDIV Val {printf("Val tDIV Val\n");}
      |tID {printf("tID\n");}
      |tNB {printf("tNB\n");};
+
+
 Var : tID tVIRG Var {printf("tID tVIRG Var\n");}
      |tID {printf("tID\n");};
+
+
 Aff :  Var tEGAL Val{printf("Var tEGAL Val");}
      | Var tADD tEGAL Val{printf("Var tADD tEGAL Val");}
      | Var tSOU tEGAL Val{printf("Var tSOU tEGAL Val");}
      | Var tMUL tEGAL Val{printf("Var tMUL tEGAL Val");}
-     | Var tDIV tEGAL Val{printf("Var tDIV tEGAL Val");}
+     | Var tDIV tEGAL Val{printf("Var tDIV tEGAL Val");};
+
+
 Cond : tEXCL tPO Cond tPF {printf("tEXCL tPO Cond tPF");}
      | Cond tAND Cond {printf("Cond tAND Cond");}
      | Cond tOR Cond {printf("Cond tOR Cond");}
