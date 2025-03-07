@@ -1,13 +1,50 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-#include "y.tab.h"
+#include "syntax.tab.h"
 %}
 
 %option noyywrap
 
+%%%%
+
+
+"main" { return tMAIN;}
+"if" {return tIF;}
+"else" {return tELSE;}
+"!" {return tEXCL;}
+">" {return tSUP;}
+"<" {return tINF;}
+"&&" {return tAND;}
+"||" {return tOR;}
+"const" { return tCONST;}
+"int" { return tINT;}
+\t { }
+" " { }
+"," { return tVIRG;}
+\n { }
+";" { return tPVIRG;}
+"printf" { return tPRINT;}
+[0-9]+	{
+	  return tNB;
+	}
+"="	{ return tEGAL; }
+"-"	{  return tSOU;}
+"+"	{ return tADD; }
+"*"	{ return tMUL; }
+"/"	{ return tDIV;}
+"("	{  return tPO;}
+")"	{ return tPF;}
+"{"	{  return tAO;}
+"}"	{  return tAF;}
+[a-z]([a-z]|[0-9]|_)*	{
+	  return tID;
+	}
+.	{ }
+
 %%
-"main" { printf("tMAIN "); return tMAIN;}
+
+/*"main" { printf("tMAIN "); return tMAIN;}
 "const" { printf("tCONST ");return tCONST;}
 "int" { printf("tINT ");return tINT;}
 "while" { printf("tWHILE ");return tWHILE;}
@@ -34,6 +71,4 @@
 	  printf("tID: %s ",yytext); return tID;
 	}
 .	{ printf("tERROR\n"); }
-
-
-%%
+*/
