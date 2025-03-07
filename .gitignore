@@ -6,3 +6,5 @@
 *.o
 *.out
 *.exe
+*.yy.c
+*.yy.h
