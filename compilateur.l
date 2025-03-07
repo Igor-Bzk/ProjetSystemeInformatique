@@ -6,8 +6,37 @@
 
 %option noyywrap
 
+%%%%
+
+"main" { return tMAIN;}
+"const" { return tCONST;}
+"int" { return tINT;}
+\t { }
+" " { }
+"," { return tVIRG;}
+\n { }
+";" { return tPVIRG;}
+"printf" { return tPRINT;}
+[0-9]+	{
+	  return tNB;
+	}
+"="	{ return tEGAL; }
+"-"	{  return tSOU;}
+"+"	{ return tADD; }
+"*"	{ return tMUL; }
+"/"	{ return tDIV;}
+"("	{  return tPO;}
+")"	{ return tPF;}
+"{"	{  return tAO;}
+"}"	{  return tAF;}
+[a-z]([a-z]|[0-9]|_)*	{
+	  return tID;
+	}
+.	{ }
+
 %%
-"main" { printf("tMAIN "); return tMAIN;}
+
+/*"main" { printf("tMAIN "); return tMAIN;}
 "const" { printf("tCONST ");return tCONST;}
 "int" { printf("tINT ");return tINT;}
 \t { printf("	");}
@@ -33,6 +62,4 @@
 	  printf("tID: %s ",yytext); return tID;
 	}
 .	{ printf("tERROR\n"); }
-
-
-%%
+*/
