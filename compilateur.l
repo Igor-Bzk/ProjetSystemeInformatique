@@ -1,14 +1,22 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-#include "y.tab.h"
+#include "syntax.tab.h"
 %}
 
 %option noyywrap
 
 %%%%
 
+
 "main" { return tMAIN;}
+"if" {return tIF;}
+"else" {return tELSE;}
+"!" {return tEXCL;}
+">" {return tSUP;}
+"<" {return tINF;}
+"&&" {return tAND;}
+"||" {return tOR;}
 "const" { return tCONST;}
 "int" { return tINT;}
 \t { }
