@@ -1,0 +1,8 @@
+*.tab.c
+*.tab.h
+*.output
+*.gv
+*.pdf
+*.o
+*.out
+*.exe
