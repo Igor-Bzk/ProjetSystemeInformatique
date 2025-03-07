@@ -10,7 +10,7 @@
 
 
 "main" { return tMAIN;}
-"while"{return tWHILE;}
+"while" {return tWHILE;}
 "if" {return tIF;}
 "else" {return tELSE;}
 "!" {return tEXCL;}
