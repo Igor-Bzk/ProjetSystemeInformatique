@@ -74,7 +74,7 @@
 int var[26];
 void yyerror(char *s);
 
-#line 78 "syntax.tab.c"
+#line 78 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -97,10 +97,13 @@ void yyerror(char *s);
 #  endif
 # endif
 
-
+/* Use api.header.include to #include this header
+   instead of duplicating it here.  */
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 1
+# define YYDEBUG 0
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -136,6 +139,29 @@ extern int yydebug;
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
+/* Token kinds.  */
+#define YYEMPTY -2
+#define YYEOF 0
+#define YYerror 256
+#define YYUNDEF 257
+#define tMAIN 258
+#define tVIRG 259
+#define tPVIRG 260
+#define tPRINT 261
+#define tEGAL 262
+#define tSOU 263
+#define tADD 264
+#define tMUL 265
+#define tDIV 266
+#define tPO 267
+#define tPF 268
+#define tAO 269
+#define tAF 270
+#define tCONST 271
+#define tINT 272
+#define tERROR 273
+#define tNB 274
+#define tID 275
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -144,7 +170,7 @@ union YYSTYPE
 #line 7 "syntax.y"
  int nb; char var; 
 
-#line 148 "syntax.tab.c"
+#line 174 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -159,7 +185,7 @@ extern YYSTYPE yylval;
 int yyparse (void);
 
 
-
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -1157,107 +1183,107 @@ yyreduce:
   case 2: /* Main: tMAIN tPO tPF tAO Expr tAF  */
 #line 18 "syntax.y"
                                  {printf("Main detecte\n");}
-#line 1161 "syntax.tab.c"
+#line 1187 "y.tab.c"
     break;
 
   case 3: /* Expr: Expr tPVIRG Expr  */
 #line 19 "syntax.y"
                          {printf("Expr tPVIRG Expr\n");}
-#line 1167 "syntax.tab.c"
+#line 1193 "y.tab.c"
     break;
 
   case 4: /* Expr: Expr tPVIRG  */
 #line 20 "syntax.y"
                       {printf("Expr tPVIRG\n");}
-#line 1173 "syntax.tab.c"
+#line 1199 "y.tab.c"
     break;
 
   case 5: /* Expr: Def  */
 #line 21 "syntax.y"
              {printf("Def\n");}
-#line 1179 "syntax.tab.c"
+#line 1205 "y.tab.c"
     break;
 
   case 6: /* Expr: tPRINT tPO tID tPF  */
 #line 22 "syntax.y"
                              {printf("tPRINT tPO tID tPF\n");}
-#line 1185 "syntax.tab.c"
+#line 1211 "y.tab.c"
     break;
 
   case 7: /* Def: tINT Var tEGAL Val  */
 #line 23 "syntax.y"
                          {printf("tINT Var tEGAL Val\n");}
-#line 1191 "syntax.tab.c"
+#line 1217 "y.tab.c"
     break;
 
   case 8: /* Def: tINT Var  */
 #line 24 "syntax.y"
                  {printf("tINT Var\n");}
-#line 1197 "syntax.tab.c"
+#line 1223 "y.tab.c"
     break;
 
   case 9: /* Def: tCONST Var tEGAL Val  */
 #line 25 "syntax.y"
                             {printf("tCONST Var tEGAL Val\n");}
-#line 1203 "syntax.tab.c"
+#line 1229 "y.tab.c"
     break;
 
   case 10: /* Def: tCONST Var  */
 #line 26 "syntax.y"
                   {printf("tCONST Var\n");}
-#line 1209 "syntax.tab.c"
+#line 1235 "y.tab.c"
     break;
 
   case 11: /* Val: Val tADD Val  */
 #line 27 "syntax.y"
                    {printf("Val tADD Val\n");}
-#line 1215 "syntax.tab.c"
+#line 1241 "y.tab.c"
     break;
 
   case 12: /* Val: Val tSOU Val  */
 #line 28 "syntax.y"
                    {printf("Val tSOU Val\n");}
-#line 1221 "syntax.tab.c"
+#line 1247 "y.tab.c"
     break;
 
   case 13: /* Val: Val tMUL Val  */
 #line 29 "syntax.y"
                    {printf("Val tMUL Val\n");}
-#line 1227 "syntax.tab.c"
+#line 1253 "y.tab.c"
     break;
 
   case 14: /* Val: Val tDIV Val  */
 #line 30 "syntax.y"
                    {printf("Val tDIV Val\n");}
-#line 1233 "syntax.tab.c"
+#line 1259 "y.tab.c"
     break;
 
   case 15: /* Val: tID  */
 #line 31 "syntax.y"
           {printf("tID\n");}
-#line 1239 "syntax.tab.c"
+#line 1265 "y.tab.c"
     break;
 
   case 16: /* Val: tNB  */
 #line 32 "syntax.y"
           {printf("tNB\n");}
-#line 1245 "syntax.tab.c"
+#line 1271 "y.tab.c"
     break;
 
   case 17: /* Var: tID tVIRG Var  */
 #line 33 "syntax.y"
                     {printf("tID tVIRG Var\n");}
-#line 1251 "syntax.tab.c"
+#line 1277 "y.tab.c"
     break;
 
   case 18: /* Var: tID  */
 #line 34 "syntax.y"
           {printf("tID\n");}
-#line 1257 "syntax.tab.c"
+#line 1283 "y.tab.c"
     break;
 
 
-#line 1261 "syntax.tab.c"
+#line 1287 "y.tab.c"
 
       default: break;
     }

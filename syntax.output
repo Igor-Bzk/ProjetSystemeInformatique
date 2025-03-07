@@ -3,9 +3,6 @@ Terminaux inutilisés dans la grammaire
     tERROR
 
 
-État 22 conflits: 1 décalage/réduction
-
-
 Grammaire
 
     0 $accept: Main $end
@@ -279,9 +276,6 @@ Non-terminaux, suivis des règles où ils apparaissent
     2     | Expr tPVIRG Expr •
     3     | Expr • tPVIRG
 
-    tPVIRG  décalage et aller à l'état 16
-
-    tPVIRG   [réduction par utilisation de la règle 2 (Expr)]
     $défaut  réduction par utilisation de la règle 2 (Expr)
 
 
