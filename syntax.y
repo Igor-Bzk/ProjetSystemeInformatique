@@ -24,7 +24,7 @@ Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | tIF tPO Cond tPF tAO Expr tAF tELSE tAO Expr tAF {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");}
         | tIF tPO Cond tPF tAO Expr tAF {printf("tIF tPO Expr tPF tAO Expr tAF \n");}
         | Def{printf("Def\n");}
-        | Aff{printf("AFF");}
+        | Aff{printf("AFF\n");}
         | tPRINT tPO tID tPF {printf("tPRINT tPO tID tPF\n");};
 Def : tINT Var tEGAL Val {printf("tINT Var tEGAL Val\n");}
       | tINT Var {printf("tINT Var\n");}
