@@ -5,7 +5,7 @@ int var[26];
 void yyerror(char *s);
 %}
 %union { int nb; char var; }
-%token tMAIN tVIRG tPVIRG tPRINT tEGAL tSOU tADD tMUL tDIV tPO tPF tAO tAF tCONST tINT tERROR
+%token tMAIN tVIRG tPVIRG tPRINT tEGAL tSOU tADD tMUL tDIV tPO tPF tAO tAF tCONST tINT tWHILE tERROR
 %token <nb> tNB
 %token <var> tID
 %type <nb> Expr Main Def Var Val
@@ -19,6 +19,8 @@ Main: tMAIN tPO tPF tAO Expr tAF {printf("Main detecte\n");};
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | Expr tPVIRG {printf("Expr tPVIRG\n");}
         | Def{printf("Def\n");}
+        | tWHILE tPO Cond tPF tAO Expr tAF {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
+        | tWHILE tPO Cond tPF tAO Expr tAF Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
         | tPRINT tPO tID tPF {printf("tPRINT tPO tID tPF\n");};
 Def : tINT Var tEGAL Val {printf("tINT Var tEGAL Val\n");}
       | tINT Var {printf("tINT Var\n");}
