@@ -8,3 +8,4 @@
 *.exe
 *.yy.c
 *.yy.h
+.vscode/
