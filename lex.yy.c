@@ -692,7 +692,8 @@ YY_DECL
 	{
 #line 9 "compilateur.l"
 
-#line 696 "lex.yy.c"
+
+#line 697 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -751,118 +752,117 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 10 "compilateur.l"
-{ printf("tMAIN "); return tMAIN;}
+#line 11 "compilateur.l"
+{ return tMAIN;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 11 "compilateur.l"
-{ printf("tCONST ");return tCONST;}
+#line 12 "compilateur.l"
+{ return tCONST;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 12 "compilateur.l"
-{ printf("tINT ");return tINT;}
+#line 13 "compilateur.l"
+{ return tINT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 13 "compilateur.l"
-{ printf("	");}
+#line 14 "compilateur.l"
+{ }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 14 "compilateur.l"
-{ printf(" ");}
+#line 15 "compilateur.l"
+{ }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 15 "compilateur.l"
-{ printf("tVIRG ");return tVIRG;}
+#line 16 "compilateur.l"
+{ return tVIRG;}
 	YY_BREAK
 case 7:
 /* rule 7 can match eol */
 YY_RULE_SETUP
-#line 16 "compilateur.l"
-{ printf("tENDL\n");}
+#line 17 "compilateur.l"
+{ }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 17 "compilateur.l"
-{ printf("tPVIRG ");return tPVIRG;}
+#line 18 "compilateur.l"
+{ return tPVIRG;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 18 "compilateur.l"
-{ printf("tPRINT ");return tPRINT;}
+#line 19 "compilateur.l"
+{ return tPRINT;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 19 "compilateur.l"
+#line 20 "compilateur.l"
 {
-	  printf("tNB: %s ",yytext);
 	  return tNB;
 	}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 23 "compilateur.l"
-{ printf("tEGAL ");return tEGAL; }
+{ return tEGAL; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 24 "compilateur.l"
-{ printf("tSOU "); return tSOU;}
+{  return tSOU;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 25 "compilateur.l"
-{ printf("tADD ");return tADD; }
+{ return tADD; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 26 "compilateur.l"
-{ printf("tMUL ");return tMUL; }
+{ return tMUL; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 27 "compilateur.l"
-{ printf("tDIV "); return tDIV;}
+{ return tDIV;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 28 "compilateur.l"
-{ printf("tPO "); return tPO;}
+{  return tPO;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 29 "compilateur.l"
-{ printf("tPF "); return tPF;}
+{ return tPF;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 30 "compilateur.l"
-{ printf("tAO "); return tAO;}
+{  return tAO;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 31 "compilateur.l"
-{ printf("tAF "); return tAF;}
+{  return tAF;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 32 "compilateur.l"
 {
-	  printf("tID: %s ",yytext); return tID;
+	  return tID;
 	}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 35 "compilateur.l"
-{ printf("tERROR\n"); }
+{ }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 38 "compilateur.l"
+#line 37 "compilateur.l"
 ECHO;
 	YY_BREAK
 #line 869 "lex.yy.c"
@@ -1870,6 +1870,33 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 38 "compilateur.l"
+#line 37 "compilateur.l"
 
 
+/*"main" { printf("tMAIN "); return tMAIN;}
+"const" { printf("tCONST ");return tCONST;}
+"int" { printf("tINT ");return tINT;}
+\t { printf("	");}
+" " { printf(" ");}
+"," { printf("tVIRG ");return tVIRG;}
+\n { printf("tENDL\n");}
+";" { printf("tPVIRG ");return tPVIRG;}
+"printf" { printf("tPRINT ");return tPRINT;}
+[0-9]+	{
+	  printf("tNB: %s ",yytext);
+	  return tNB;
+	}
+"="	{ printf("tEGAL ");return tEGAL; }
+"-"	{ printf("tSOU "); return tSOU;}
+"+"	{ printf("tADD ");return tADD; }
+"*"	{ printf("tMUL ");return tMUL; }
+"/"	{ printf("tDIV "); return tDIV;}
+"("	{ printf("tPO "); return tPO;}
+")"	{ printf("tPF "); return tPF;}
+"{"	{ printf("tAO "); return tAO;}
+"}"	{ printf("tAF "); return tAF;}
+[a-z]([a-z]|[0-9]|_)*	{
+	  printf("tID: %s ",yytext); return tID;
+	}
+.	{ printf("tERROR\n"); }
+*/
