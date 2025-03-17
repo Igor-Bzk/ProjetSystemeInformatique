@@ -5,68 +5,71 @@
 #include <string.h>
 #include "table_symbole.h"
 
+/*
+void f() {
+    int a;
+    int b;
+    if (a) {
+        int c;
+        int d;
+        // ici
+    }
+    // la
+}
+
+
+| d 1 | <- index
+| c 1 |
+| b 0 |
+| a 0 |
+profondeur = 1
+
+
+| b 0 | <- index
+| a 0 |
+profondeur = 0
+*/
+
 typedef struct symbole
 {
     char *nom;
-    int valeur;
+    int profondeur;
 } symbole;
 
-typedef struct table_symbole
-{
-    symbole simb;
-    symbole suiv[16];
-    int profondeur;
-} table_symbole;
+symbole symboles[16];
+int profondeur_courante;
+int index;
 
-symbole pop(table_symbole *table)
+void decrementer_profondeur()
 {
-    table->profondeur -= 1;
-    return table->suiv[table->profondeur];
+    while(index>1 && symboles[index].profondeur==profondeur_courante){
+        index-=1;
+    }
+    profondeur_courante-=1;
 }
 
-void push(table_symbole *table, symbole *symb)
+
+void add_symbole(char* nom)
 {
-    if (table->profondeur == 15)
-    {
-        printf("Table deja pleine\n");
-    }
-    else
-    {
-        table->suiv[table->profondeur] = *symb;
-        table->profondeur += 1;
-    }
+    symbole sy;
+    sy.nom = nom;
+    sy.profondeur = profondeur_courante;
+    symboles[index+1]=sy;
+    index+=1;
 }
 
-void set_val(table_symbole *table, char *nom, int val)
-{
-    for (int i = 0; i < table->profondeur; i++)
-    {
-        if (strcmp(table->suiv[i].nom, nom) == 0)
-        {
-            table->suiv[i].valeur = val;
-            return;
+void incrementer_profondeur(){
+    profondeur_courante+=1;
+}
+
+int get_pofondeur_symbole(char* nom){
+    for(int i=0;i<index;i++){
+        if(strcmp(nom,symboles[i].nom)){
+            return symboles[i].profondeur;
         }
     }
-    printf("Symbole non trouvé\n");
-}
-
-int get_val(table_symbole *table, char *nom)
-{
-    for (int i = 0; i <= table->profondeur; i++)
-    {
-        symbole sy = table->suiv[i];
-        if (strcmp(sy.nom, nom))
-        {
-            return sy.valeur;
-        }
-    }
-    printf("Symbole non trouvé\n");
+    printf("Ce symbole n'existe pas ou plus !\n");
     return -1;
-}
-
-int get_profondeur(table_symbole *table)
-{
-    return table->profondeur;
 }
 
 int main()
