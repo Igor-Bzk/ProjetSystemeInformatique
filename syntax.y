@@ -28,7 +28,7 @@ Main: tMAIN tPO tPF tAO Expr tAF {printf("Main detecte\n");};
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | Expr tPVIRG {printf("Expr tPVIRG\n");}
         | tIF tPO Cond tPF tAO Expr tAF tELSE tAO Expr tAF Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
-        | tIF tPO Cond tPF tAO Expr tAF Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");incrementer_profondeur();}
+        | tIF tPO Cond tPF tAO Expr tAF Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");}
         | tIF tPO Cond tPF tAO Expr tAF tELSE tAO Expr tAF {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");}
         | tIF tPO Cond tPF tAO Expr tAF {printf("tIF tPO Expr tPF tAO Expr tAF \n");}
         | Def{printf("Def\n");}
