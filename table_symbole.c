@@ -30,10 +30,9 @@ profondeur = 1
 profondeur = 0
 */
 
-
 void decrementer_profondeur()
 {
-    while (indexe > 1 && symboles[indexe].profondeur == profondeur_courante)
+    while (indexe > 0 && symboles[indexe - 1].profondeur == profondeur_courante)
     {
         indexe -= 1;
     }
@@ -45,8 +44,8 @@ void add_symbole(char *nom)
     symbole sy;
     sy.nom = nom;
     sy.profondeur = profondeur_courante;
-    symboles[indexe+1]=sy;
-    indexe+=1;
+    symboles[indexe] = sy;
+    indexe += 1;
 }
 
 void incrementer_profondeur()
@@ -54,19 +53,14 @@ void incrementer_profondeur()
     profondeur_courante += 1;
 }
 
-int get_pofondeur_symbole(char *nom)
+void print_table_symbole()
 {
+    printf("profondeur_courante: %d, indexe :%d\n", profondeur_courante, indexe);
     for (int i = 0; i < indexe; i++)
     {
-        if (strcmp(nom, symboles[i].nom))
-        {
-            return symboles[i].profondeur;
-        }
+        printf("%s %d\n", symboles[i].nom, symboles[i].profondeur);
     }
-    printf("Ce symbole n'existe pas ou plus !\n");
-    return -1;
 }
-
 
 int main()
 {
