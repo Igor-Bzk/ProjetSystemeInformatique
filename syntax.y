@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "syntax.tab.h"
-#include "table_symboles.h"
+#include "table_symbole.h"
 int var[26];
 void yyerror(char *s);
 int yylex();

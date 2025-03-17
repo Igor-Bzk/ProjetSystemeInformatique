@@ -18,53 +18,47 @@ void f() {
 }
 
 
-| d 1 | <- index
+| d 1 | <- indexe
 | c 1 |
 | b 0 |
 | a 0 |
 profondeur = 1
 
 
-| b 0 | <- index
+| b 0 | <- indexe
 | a 0 |
 profondeur = 0
 */
 
-typedef struct symbole
-{
-    char *nom;
-    int profondeur;
-} symbole;
-
-symbole symboles[16];
-int profondeur_courante;
-int index;
-
 void decrementer_profondeur()
 {
-    while(index>1 && symboles[index].profondeur==profondeur_courante){
-        index-=1;
+    while (indexe > 1 && symboles[indexe].profondeur == profondeur_courante)
+    {
+        indexe -= 1;
     }
-    profondeur_courante-=1;
+    profondeur_courante -= 1;
 }
 
-
-void add_symbole(char* nom)
+void add_symbole(char *nom)
 {
     symbole sy;
     sy.nom = nom;
     sy.profondeur = profondeur_courante;
-    symboles[index+1]=sy;
-    index+=1;
+    symboles[indexe + 1] = sy;
+    indexe += 1;
 }
 
-void incrementer_profondeur(){
-    profondeur_courante+=1;
+void incrementer_profondeur()
+{
+    profondeur_courante += 1;
 }
 
-int get_pofondeur_symbole(char* nom){
-    for(int i=0;i<index;i++){
-        if(strcmp(nom,symboles[i].nom)){
+int get_pofondeur_symbole(char *nom)
+{
+    for (int i = 0; i < indexe; i++)
+    {
+        if (strcmp(nom, symboles[i].nom))
+        {
             return symboles[i].profondeur;
         }
     }
