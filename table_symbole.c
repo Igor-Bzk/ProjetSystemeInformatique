@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include <string.h>
 #include "table_symbole.h"
@@ -47,6 +48,19 @@ void set_val(table_symbole *table, char *nom, int val)
         }
     }
     printf("Symbole non trouvé\n");
+}
+
+int get_val(table_symbole *table, char *nom)
+{
+    for (int i = 0; i <= table->profondeur; i++)
+    {
+        symbole sy = table->suiv[i];
+        if (strcmp(sy.nom, nom))
+        {
+            return sy.valeur;
+        }
+    }
+    return -1;
 }
 
 int main()
