@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 
 typedef struct symbole {
@@ -27,6 +28,15 @@ void push(table_symbole* table, symbole* symb){
     }
 }
 
+int get_val(table_symbole* table, char* nom){
+    for(int i=0;i<=table->profondeur;i++){
+        symbole sy = table->suiv[i];
+        if(strcmp(sy.nom,nom)){
+            return sy.valeur;
+        }
+    }
+    return -1;
+}
 
 
 int main(){
