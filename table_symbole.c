@@ -67,6 +67,7 @@ int get_pofondeur_symbole(char *nom)
     return -1;
 }
 
+
 int main()
 {
     return 0;
