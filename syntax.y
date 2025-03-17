@@ -16,6 +16,9 @@ int yylex();
 %right tADD tSOU
 %right tVIRG
 %right tPVIRG
+%right tIF
+%right tOR
+%right tAND tAF
 %start Main
 %%
 Main: tMAIN tPO tPF tAO Expr tAF {printf("Main detecte\n");}; 
