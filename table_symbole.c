@@ -38,6 +38,10 @@ int get_val(table_symbole* table, char* nom){
     return -1;
 }
 
+int get_profondeur(table_symbole* table){
+    return table->profondeur;
+}
+
 
 int main(){
     return 0;
