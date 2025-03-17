@@ -1,6 +1,7 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
+#include "syntax.tab.h"
 int var[26];
 void yyerror(char *s);
 %}
