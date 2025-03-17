@@ -7,12 +7,12 @@ int var[26];
 void yyerror(char *s);
 int yylex();
 %}
-%union { int nb; char var; }
+%union { int nb; char* var; }
 %token tMAIN tVIRG tPVIRG tPRINT tEGAL tSOU tADD tMUL tDIV tPO tPF tAO tAF tCONST tINT tWHILE 
 %token tERROR tIF tELSE tEXCL tSUP tINF tAND tOR
 %token <nb> tNB
 %token <var> tID
-%type <nb> Expr Main Def Var Val Cond
+%type <nb> Expr Main Def Var Val Cond Body Var_def
 %right tMUL tDIV
 %right tADD tSOU
 %right tVIRG
@@ -27,21 +27,23 @@ Main: tMAIN tPO tPF tAO Expr tAF {printf("Main detecte\n");};
 
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | Expr tPVIRG {printf("Expr tPVIRG\n");}
-        | tIF tPO Cond tPF tAO Expr tAF tELSE tAO Expr tAF Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
-        | tIF tPO Cond tPF tAO Expr tAF Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");}
-        | tIF tPO Cond tPF tAO Expr tAF tELSE tAO Expr tAF {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");}
-        | tIF tPO Cond tPF tAO Expr tAF {printf("tIF tPO Expr tPF tAO Expr tAF \n");}
+        | tIF tPO Cond tPF Body tELSE Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
+        | tIF tPO Cond tPF Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");}
+        | tIF tPO Cond tPF Body tELSE Body {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");}
+        | tIF tPO Cond tPF Body {printf("tIF tPO Expr tPF tAO Expr tAF \n");}
         | Def{printf("Def\n");}
-        | tWHILE tPO Cond tPF tAO Expr tAF {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
-        | tWHILE tPO Cond tPF tAO Expr tAF Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
+        | tWHILE tPO Cond tPF Body {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
+        | tWHILE tPO Cond tPF Body Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
         | Aff{printf("AFF\n");}
         | tPRINT tPO tID tPF {printf("tPRINT tPO tID tPF\n");};
 
+Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("body");decrementer_profondeur();}
 
-Def : tINT Var tEGAL Val {printf("tINT Var tEGAL Val\n");add_symbole($2);}
-      | tINT Var {printf("tINT Var\n");add_symbole($2);}
-      |tCONST Var tEGAL Val {printf("tCONST Var tEGAL Val\n");add_symbole($2);}
-      |tCONST Var {printf("tCONST Var\n");add_symbole($2);};
+
+Def : tINT Var_def tEGAL Val {printf("tINT Var tEGAL Val\n");}
+      | tINT Var_def {printf("tINT Var\n");}
+      |tCONST Var_def tEGAL Val {printf("tCONST Var tEGAL Val\n");}
+      |tCONST Var_def {printf("tCONST Var\n");};
 
 
 Val : tPO Val tPF {printf("tPO Val tPF\n");}
@@ -52,9 +54,12 @@ Val : tPO Val tPF {printf("tPO Val tPF\n");}
      |tID {printf("tID\n");}
      |tNB {printf("tNB\n");};
 
+Var_def: tID tVIRG Var_def {add_symbole($1);printf("tID tVIRG Var\n");}
+          |  tID {add_symbole($1);};
+
 
 Var : tID tVIRG Var {printf("tID tVIRG Var\n");}
-     |tID {printf("tID\n");};
+     |tID {$1;};
 
 
 Aff :  Var tEGAL Val{printf("Var tEGAL Val");}

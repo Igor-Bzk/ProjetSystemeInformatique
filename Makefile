@@ -15,6 +15,5 @@ lex.yy.c: compilateur.l
 clean: 
 	rm -f lex.yy.c *.o *.exe *.pdf *.gv *.output *.tab.c *.tab.h compilateur *.yy.c *.yy.h
 
-test: compilateur
-	./compilateur.exe < test.txt
+test: syntax
 	./syntax.exe < test.txt
