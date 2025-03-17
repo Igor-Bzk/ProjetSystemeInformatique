@@ -4,6 +4,7 @@
 #include "syntax.tab.h"
 int var[26];
 void yyerror(char *s);
+int yylex();
 %}
 %union { int nb; char var; }
 %token tMAIN tVIRG tPVIRG tPRINT tEGAL tSOU tADD tMUL tDIV tPO tPF tAO tAF tCONST tINT tWHILE 
