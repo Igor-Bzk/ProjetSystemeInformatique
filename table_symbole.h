@@ -11,4 +11,4 @@ int indexe = 0;
 void decrementer_profondeur();
 void add_symbole(char *nom);
 void incrementer_profondeur();
-int get_pofondeur_symbole(char *nom);
+void print_table_symbole();
