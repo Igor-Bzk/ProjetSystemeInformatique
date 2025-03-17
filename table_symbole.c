@@ -60,7 +60,13 @@ int get_val(table_symbole *table, char *nom)
             return sy.valeur;
         }
     }
+    printf("Symbole non trouvé\n");
     return -1;
+}
+
+int get_profondeur(table_symbole *table)
+{
+    return table->profondeur;
 }
 
 int main()
