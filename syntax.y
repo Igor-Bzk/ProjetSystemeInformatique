@@ -38,10 +38,10 @@ Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | tPRINT tPO tID tPF {printf("tPRINT tPO tID tPF\n");};
 
 
-Def : tINT Var tEGAL Val {printf("tINT Var tEGAL Val\n");}
-      | tINT Var {printf("tINT Var\n");}
-      |tCONST Var tEGAL Val {printf("tCONST Var tEGAL Val\n");}
-      |tCONST Var {printf("tCONST Var\n");};
+Def : tINT Var tEGAL Val {printf("tINT Var tEGAL Val\n");add_symbole($2);}
+      | tINT Var {printf("tINT Var\n");add_symbole($2);}
+      |tCONST Var tEGAL Val {printf("tCONST Var tEGAL Val\n");add_symbole($2);}
+      |tCONST Var {printf("tCONST Var\n");add_symbole($2);};
 
 
 Val : tPO Val tPF {printf("tPO Val tPF\n");}
