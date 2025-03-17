@@ -5,6 +5,16 @@
 #include <string.h>
 #include "table_symbole.h"
 
+typedef struct symbole
+{
+    char *nom;
+    int profondeur;
+} symbole;
+
+symbole symboles[16];
+int profondeur_courante = 0;
+int indexe = 0;
+
 /*
 void f() {
     int a;
@@ -62,7 +72,3 @@ void print_table_symbole()
     }
 }
 
-int main()
-{
-    return 0;
-}
