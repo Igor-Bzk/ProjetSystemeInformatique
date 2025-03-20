@@ -1,8 +1,7 @@
 main(){
-    int a;
-    int b;
-    if (a==b) {
-        int c;
-        int d;
+    int a=1;
+    int b=2;
+    if (a!=b) {
+        a=a+b;
     }
 }

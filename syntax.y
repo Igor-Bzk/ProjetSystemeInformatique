@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "syntax.tab.h"
 #include "table_symbole.h"
+#include "assembleur.h"
 int var[26];
 void yyerror(char *s);
 int yylex();
@@ -12,7 +13,8 @@ int yylex();
 %token tERROR tIF tELSE tEXCL tSUP tINF tAND tOR
 %token <nb> tNB
 %token <str> tID
-%type <nb> Expr Main Def Var Val Cond Body Var_def
+%type <nb> Expr Main Def Var Cond Body Var_def
+%type <str> Val
 %right tMUL tDIV
 %right tADD tSOU
 %right tVIRG
@@ -22,9 +24,7 @@ int yylex();
 %right tAND tAF tPF tELSE
 %start Main
 %%
-Main: tMAIN tPO tPF tAO Expr tAF {printf("Main detecte\n");
-FILE *fichier = fopen("assembleur.txt", "w");
-}; 
+Main: tMAIN {ouvrir();}tPO tPF tAO Expr tAF {printf("Main detecte\n");fermer();}; 
 
 
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
@@ -49,11 +49,11 @@ Def : tINT Var_def tEGAL Val {printf("tINT Var tEGAL Val\n");}
 
 
 Val : tPO Val tPF {printf("tPO Val tPF\n");}
-     |Val tADD Val {printf("Val tADD Val\n");}
+     |Val tADD Val {printf("Val tADD Val\n");add($1,$3);}
      |Val tSOU Val {printf("Val tSOU Val\n");}
      |Val tMUL Val {printf("Val tMUL Val\n");}
      |Val tDIV Val {printf("Val tDIV Val\n");}
-     |tID {printf("tID\n");}
+     |tID {printf("tID\n");$$=$1;}
      |tNB {printf("tNB\n");};
 
 Var_def: tID tVIRG Var_def {add_symbole($1);printf("tID tVIRG Var\n");}
