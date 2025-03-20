@@ -3,7 +3,7 @@ build: compilateur syntax
 compilateur: lex.yy.c
 	gcc -o compilateur.exe lex.yy.c
 
-syntax: syntax.tab.c lex.yy.c syntax.tab.h
+syntax: syntax.tab.c lex.yy.c syntax.tab.h table_symbole.c table_symbole.h
 	gcc -o syntax.exe syntax.tab.c lex.yy.c table_symbole.c
 
 syntax.tab.c: syntax.y
