@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "syntax.tab.h"
+#include "syntax.tab.h"
 %}
 
 %option noyywrap
@@ -39,6 +40,7 @@
 "{"	{  return tAO;}
 "}"	{  return tAF;}
 [a-z]([a-z]|[0-9]|_)*	{
+	yylval.str = strdup(yytext);
 	  return tID;
 	}
 .	{ }

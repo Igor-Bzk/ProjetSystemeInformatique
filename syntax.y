@@ -7,11 +7,11 @@ int var[26];
 void yyerror(char *s);
 int yylex();
 %}
-%union { int nb; char* var; }
+%union { int nb; char* str; }
 %token tMAIN tVIRG tPVIRG tPRINT tEGAL tSOU tADD tMUL tDIV tPO tPF tAO tAF tCONST tINT tWHILE 
 %token tERROR tIF tELSE tEXCL tSUP tINF tAND tOR
 %token <nb> tNB
-%token <var> tID
+%token <str> tID
 %type <nb> Expr Main Def Var Val Cond Body Var_def
 %right tMUL tDIV
 %right tADD tSOU
@@ -19,10 +19,12 @@ int yylex();
 %right tPVIRG
 %right tIF
 %right tOR
-%right tAND tAF
+%right tAND tAF tPF tELSE
 %start Main
 %%
-Main: tMAIN tPO tPF tAO Expr tAF {printf("Main detecte\n");}; 
+Main: tMAIN tPO tPF tAO Expr tAF {printf("Main detecte\n");
+FILE *fichier = fopen("assembleur.txt", "w");
+}; 
 
 
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
@@ -37,7 +39,7 @@ Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | Aff{printf("AFF\n");}
         | tPRINT tPO tID tPF {printf("tPRINT tPO tID tPF\n");};
 
-Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("body");decrementer_profondeur();}
+Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("Valeur recherchee : %d\n",get_index("a"));printf("body");decrementer_profondeur();}
 
 
 Def : tINT Var_def tEGAL Val {printf("tINT Var tEGAL Val\n");}

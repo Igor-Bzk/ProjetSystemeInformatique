@@ -13,7 +13,7 @@ lex.yy.c: compilateur.l
 	lex compilateur.l
 
 clean: 
-	rm -f lex.yy.c *.o *.exe *.pdf *.gv *.output *.tab.c *.tab.h compilateur *.yy.c *.yy.h
+	rm -f lex.yy.c *.o *.exe *.pdf *.gv *.output *.tab.c *.tab.h compilateur *.yy.c *.yy.h assembleur.txt
 
 test: syntax
 	./syntax.exe < test.txt

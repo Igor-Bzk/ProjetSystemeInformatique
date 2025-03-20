@@ -72,3 +72,11 @@ void print_table_symbole()
     }
 }
 
+int get_index(char* variable){
+    for(int i = indexe-1; i >= 0; i--){
+        if (!strcmp(variable, symboles[i].nom))
+        {
+            return i;
+        }
+    }
+}
