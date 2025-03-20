@@ -65,7 +65,7 @@ int add_tmp()
     char *tmp = malloc(10);
     sprintf(tmp, "tmp%d", indexe_tmp);
     indexe_tmp -= 1;
-    return indexe_tmp;
+    return indexe_tmp + 1;
 }
 
 void free_tmp(int tmp)

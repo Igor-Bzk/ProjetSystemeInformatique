@@ -27,10 +27,10 @@ int copy_to_tmp(int v)
     return tmp;
 }
 
-int operation(int v1, int v2, int op)
+int operation(int op, int v1, int v2)
 {
     char op_str[4];
-    switch (v1)
+    switch (op)
     {
     case 0:
         strcpy(op_str, "ADD");
