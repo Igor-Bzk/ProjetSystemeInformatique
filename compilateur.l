@@ -28,6 +28,7 @@
 ";" { return tPVIRG;}
 "printf" { return tPRINT;}
 [0-9]+	{
+	yylval.nb = atoi(strdup(yytext));
 	  return tNB;
 	}
 "="	{ return tEGAL; }

@@ -13,8 +13,9 @@ typedef struct symbole
 
 symbole symboles[16];
 int profondeur_courante = 0;
-int indexe = 0;
 
+int indexe = 0;
+int indexe_tmp = 15;
 /*
 void f() {
     int a;
@@ -49,13 +50,31 @@ void decrementer_profondeur()
     profondeur_courante -= 1;
 }
 
-void add_symbole(char *nom)
+int add_symbole(char *nom)
 {
     symbole sy;
     sy.nom = nom;
     sy.profondeur = profondeur_courante;
     symboles[indexe] = sy;
     indexe += 1;
+    return indexe - 1;
+}
+
+int add_tmp()
+{
+    char *tmp = malloc(10);
+    sprintf(tmp, "tmp%d", indexe_tmp);
+    indexe_tmp -= 1;
+    return indexe_tmp;
+}
+
+void free_tmp(int tmp)
+{
+    for (int i = tmp; i > indexe_tmp; i--)
+    {
+        symboles[i] = symboles[i - 1];
+    }
+    indexe_tmp += 1;
 }
 
 void incrementer_profondeur()
@@ -72,8 +91,18 @@ void print_table_symbole()
     }
 }
 
-int get_index(char* variable){
-    for(int i = indexe-1; i >= 0; i--){
+int get_index(char *variable)
+{
+    for (int i = indexe - 1; i >= 0; i--)
+    {
+        if (!strcmp(variable, symboles[i].nom))
+        {
+            return i;
+        }
+    }
+
+    for (int i = indexe_tmp + 1; i < 16; i++)
+    {
         if (!strcmp(variable, symboles[i].nom))
         {
             return i;
