@@ -28,10 +28,10 @@ Main: tMAIN {ouvrir();}tPO tPF tAO Expr tAF {printf("Main detecte\n");fermer();}
 
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | Expr tPVIRG {printf("Expr tPVIRG\n");}
-        | tIF tPO Cond tPF Body tELSE Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");if_not_goto($3,$5);else_goto($7);}
-        | tIF tPO Cond tPF Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");if_not_goto($3,$5);}
-        | tIF tPO Cond tPF Body tELSE Body {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");if_not_goto($3,$5);else_goto($7);}
-        | tIF tPO Cond tPF Body {printf("tIF tPO Expr tPF tAO Expr tAF \n");if_not_goto($3,$5);}
+        | tIF tPO Cond {if_not_goto($3);} tPF Body tELSE{else_goto();} Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
+        | tIF tPO Cond {if_not_goto($3);} tPF Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");}
+        | tIF tPO Cond {if_not_goto($3);} tPF Body tELSE{else_goto();} Body {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");}
+        | tIF tPO Cond {if_not_goto($3);} tPF Body {printf("tIF tPO Expr tPF tAO Expr tAF \n");}
         | Def{printf("Def\n");}
         | tWHILE tPO Cond tPF Body {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
         | tWHILE tPO Cond tPF Body Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
