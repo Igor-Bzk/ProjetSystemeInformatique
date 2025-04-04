@@ -74,7 +74,7 @@ void print(int v)
     fprintf(code_assembleur, "PRI %d\n", v);
 }
 
-int add_label(int label)
+void add_label(int label)
 {
     fprintf(code_assembleur, "LBL%d ", label);
 }
