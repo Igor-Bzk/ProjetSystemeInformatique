@@ -81,7 +81,7 @@ int add_label(int label)
 
 void if_not_goto(int cond, int label)
 {
-    fprintf(code_assembleur, "JMF %d %d\n", cond, label);
+    fprintf(code_assembleur, "JMF %d LBL%d\n", cond, label);
 }
 
 void else_goto(int label)
