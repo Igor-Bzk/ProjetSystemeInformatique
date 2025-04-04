@@ -60,5 +60,5 @@
     "table_symbole.h": "c",
     "chrono": "c",
     "stdbool.h": "c"
-  },
+  }
 }
