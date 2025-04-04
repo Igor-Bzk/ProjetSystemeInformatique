@@ -8,6 +8,7 @@
 int num_labels = 0;
 
 FILE *code_assembleur;
+int num_label = 0;
 
 void ouvrir()
 {
