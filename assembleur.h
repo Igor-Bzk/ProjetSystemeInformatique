@@ -5,3 +5,8 @@ int copy_to_tmp(int v);
 int affectation(int v, int tmp);
 int aff_tmp(int tmp, int val);
 void print(int v);
+void add_label(int label);
+void if_not_goto(int cond, int label);
+void else_goto(int label);
+void cmp(int op, int v1, int v2);
+int label = 0;

@@ -28,17 +28,17 @@ Main: tMAIN {ouvrir();}tPO tPF tAO Expr tAF {printf("Main detecte\n");fermer();}
 
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | Expr tPVIRG {printf("Expr tPVIRG\n");}
-        | tIF tPO Cond tPF Body tELSE Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
-        | tIF tPO Cond tPF Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");}
-        | tIF tPO Cond tPF Body tELSE Body {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");}
-        | tIF tPO Cond tPF Body {printf("tIF tPO Expr tPF tAO Expr tAF \n");}
+        | tIF tPO Cond tPF Body tELSE Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");if_not_goto($3,$5);else_goto($7);}
+        | tIF tPO Cond tPF Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");if_not_goto($3,$5);}
+        | tIF tPO Cond tPF Body tELSE Body {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");if_not_goto($3,$5);else_goto($7);}
+        | tIF tPO Cond tPF Body {printf("tIF tPO Expr tPF tAO Expr tAF \n");if_not_goto($3,$5);}
         | Def{printf("Def\n");}
         | tWHILE tPO Cond tPF Body {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
         | tWHILE tPO Cond tPF Body Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
         | Var tEGAL Val{affectation($1,$3);printf("Var tEGAL Val");}
         | tPRINT tPO tID tPF {print(get_index($3)),printf("tPRINT tPO tID tPF\n");};
 
-Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("Valeur recherchee : %d\n",get_index("a"));printf("body");decrementer_profondeur();}
+Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("Valeur recherchee : %d\n",get_index("a"));printf("body");decrementer_profondeur();$$=add_label();}
 
 
 Def : tINT Var_def tEGAL Val {affectation($2,$4);printf("tINT Var tEGAL Val\n");}
@@ -63,14 +63,14 @@ Var : tID tVIRG Var {$$ = get_index($1);printf("tID tVIRG Var\n");}
      |tID {$$ = get_index($1);};
 
 Cond : tEXCL tPO Cond tPF {printf("tEXCL tPO Cond tPF");}
-     | Cond tAND Cond {printf("Cond tAND Cond");}
-     | Cond tOR Cond {printf("Cond tOR Cond");}
-     | Val tEGAL tEGAL Val {printf("Val tEGAL tEGAL Val");}
-     | Val tEXCL tEGAL Val {printf("Val tEXCL tEGAL Val");}
-     | Val tSUP Val {printf("Val tSUP Val");}
-     | Val tSUP tEGAL Val {printf("Val tSUP tEGAL Val");}
-     | Val tINF Val {printf("Val tINF Val");}
-     | Val tINF tEGAL Val {printf("Val tINF tEGAL Val");}; 
+     | Cond tAND Cond {printf("Cond tAND Cond");$$=operation(2,$1,$3);}
+     | Cond tOR Cond {printf("Cond tOR Cond");$$=operation(0,$1,$3);}
+     | Val tEGAL tEGAL Val {printf("Val tEGAL tEGAL Val");$$=cmp(0,$1,$4);}
+     | Val tEXCL tEGAL Val {printf("Val tEXCL tEGAL Val");$$=cmp(5,$1,$4);}
+     | Val tSUP Val {printf("Val tSUP Val");$$=cmp(1,$1,$3);}
+     | Val tSUP tEGAL Val {printf("Val tSUP tEGAL Val");$$=cmp(2,$1,$4);}
+     | Val tINF Val {printf("Val tINF Val");$$=cmp(3,$1,$3);}
+     | Val tINF tEGAL Val {printf("Val tINF tEGAL Val");$$=cmp(4,$1,$4);}; 
         
 %%
 void yyerror(char *s) { fprintf(stderr, "%s\n", s);}

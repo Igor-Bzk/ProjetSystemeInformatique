@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "table_symbole.h"
+#include "assembleur.h"
 
 FILE *code_assembleur;
 
@@ -68,4 +69,59 @@ int aff_tmp(int tmp, int val)
 void print(int v)
 {
     fprintf(code_assembleur, "PRI %d\n", v);
+}
+
+void add_label()
+{
+    fprintf(code_assembleur, "LBL%d\n", label);
+    return label++;
+}
+
+void if_not_goto(int cond, int label)
+{
+    fprintf(code_assembleur, "JMF %d %d\n", cond, label);
+}
+
+void else_goto(int label)
+{
+    fprintf(code_assembleur, "JMP %d %d\n", label);
+}
+
+void cmp(int op, int v1, int v2)
+{
+    char op_str[4];
+    int tmp = add_tmp();
+    int tmp2 = add_tmp();
+
+    switch (op)
+    {
+    case 0: // egal
+        fprintf(code_assembleur, "SUP %d %d %d\n", op_str, tmp, v1, v2);
+        break;
+    case 1: // Superieur
+        fprintf(code_assembleur, "SUP %d %d %d\n", op_str, tmp, v1, v2);
+        break;
+    case 2: // superieur ou egal
+        fprintf(code_assembleur, "SUP %d %d %d\n", op_str, tmp, v1, v2);
+        fprintf(code_assembleur, "EQU %d %d %d\n", op_str, tmp2, v1, v2);
+        fprintf(code_assembleur, "ADD %d %d %d\n", op_str, tmp, tmp, tmp2);
+        break;
+    case 3: // inferieur
+        fprintf(code_assembleur, "INF %d %d %d\n", op_str, tmp, v1, v2);
+        break;
+    case 4: // inferieur ou egal
+        fprintf(code_assembleur, "INF %d %d %d\n", op_str, tmp, v1, v2);
+        fprintf(code_assembleur, "EQU %d %d %d\n", op_str, tmp2, v1, v2);
+        fprintf(code_assembleur, "ADD %d %d %d\n", op_str, tmp, tmp, tmp2);
+        break;
+    case 5: // non egal
+        fprintf(code_assembleur, "SUP %d %d %d\n", op_str, tmp, v1, v2);
+        fprintf(code_assembleur, "INF %d %d\n", op_str, tmp2, v1, v2);
+        fprintf(code_assembleur, "ADD %d %d %d\n", op_str, tmp, tmp, tmp2);
+        break;
+    }
+
+    free_tmp(v2);
+    free_tmp(tmp2);
+    return tmp;
 }
