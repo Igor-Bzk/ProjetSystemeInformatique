@@ -109,3 +109,8 @@ int get_index(char *variable)
         }
     }
 }
+
+int get_profondeur()
+{
+    return profondeur_courante;
+}

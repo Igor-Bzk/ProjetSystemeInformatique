@@ -6,3 +6,4 @@ void print_table_symbole();
 int get_index(char *nom);
 int add_tmp();
 void free_tmp(int tmp);
+int get_profondeur();

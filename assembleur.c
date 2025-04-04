@@ -74,22 +74,19 @@ void print(int v)
     fprintf(code_assembleur, "PRI %d\n", v);
 }
 
-int add_label()
+int add_label(int label)
 {
-    fprintf(code_assembleur, "LBL%d\n", num_labels);
-    return num_labels = -1;
+    fprintf(code_assembleur, "LBL%d\n", label);
 }
 
-void if_not_goto(int cond)
+void if_not_goto(int cond, int label)
 {
-    fprintf(code_assembleur, "JMF %d %d\n", cond, num_labels);
-    num_labels++;
+    fprintf(code_assembleur, "JMF %d %d\n", cond, label);
 }
 
-void else_goto()
+void else_goto(int label)
 {
-    fprintf(code_assembleur, "JMP %d\n", num_labels);
-    num_labels++;
+    fprintf(code_assembleur, "JMP %d\n", label);
 }
 
 int cmp(int op, int v1, int v2)
