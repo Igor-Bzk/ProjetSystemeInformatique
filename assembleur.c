@@ -65,7 +65,7 @@ int affectation(int v, int tmp)
 
 int aff_tmp(int tmp, int val)
 {
-    fprintf(code_assembleur, "AFS %d %d\n", tmp, val);
+    fprintf(code_assembleur, "AFC %d %d\n", tmp, val);
     return tmp;
 }
 
@@ -74,9 +74,9 @@ void print(int v)
     fprintf(code_assembleur, "PRI %d\n", v);
 }
 
-int add_label(int label)
+void add_label(int label)
 {
-    fprintf(code_assembleur, "LBL%d\n", label);
+    fprintf(code_assembleur, "LBL%d ", label);
 }
 
 void if_not_goto(int cond, int label)

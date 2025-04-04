@@ -28,21 +28,21 @@ Main: tMAIN {ouvrir();}tPO tPF tAO Expr tAF {printf("Main detecte\n");fermer();}
 
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | Expr tPVIRG {printf("Expr tPVIRG\n");}
-        | IfCond tPF Else Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
-        | IfCond tPF Body Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");}
-        | IfCond tPF Else Body {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");}
-        | IfCond tPF Body {printf("tIF tPO Expr tPF tAO Expr tAF \n");}
+        | IfCond tPF Else Body{add_label(get_profondeur());} Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
+        | IfCond tPF Body {add_label(get_profondeur());} Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");}
+        | IfCond tPF Else Body {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");add_label(get_profondeur());}
+        | IfCond tPF Body {printf("tIF tPO Expr tPF tAO Expr tAF \n");add_label(get_profondeur());}
         | Def{printf("Def\n");}
         | tWHILE tPO Cond tPF Body {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
         | tWHILE tPO Cond tPF Body Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
         | Var tEGAL Val{affectation($1,$3);printf("Var tEGAL Val");}
         | tPRINT tPO tID tPF {print(get_index($3)),printf("tPRINT tPO tID tPF\n");};
 
-Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("Valeur recherchee : %d\n",get_index("a"));printf("body");decrementer_profondeur();$$=add_label(get_profondeur());}
+Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("Valeur recherchee : %d\n",get_index("a"));printf("body");decrementer_profondeur();}
 
 IfCond: tIF tPO Cond {if_not_goto($3,get_profondeur());}
 
-Else: Body tELSE{else_goto(get_profondeur());}
+Else: Body tELSE{else_goto(get_profondeur());add_label(get_profondeur());}
 
 Def : tINT Var_def tEGAL Val {affectation($2,$4);printf("tINT Var tEGAL Val\n");}
       | tINT Var_def {printf("tINT Var\n");}
