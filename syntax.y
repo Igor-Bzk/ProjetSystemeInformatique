@@ -13,7 +13,7 @@ int yylex();
 %token tERROR tIF tELSE tEXCL tSUP tINF tAND tOR
 %token <nb> tNB
 %token <str> tID
-%type <nb> Expr Main Def Var Cond Body Var_def Val WhileCond
+%type <nb> Expr Main Def Var Cond Body Var_def Val
 %right tMUL tDIV
 %right tADD tSOU
 %right tVIRG
@@ -23,59 +23,59 @@ int yylex();
 %right tAND tAF tPF tELSE
 %start Main
 %%
-Main: tMAIN {ouvrir();}tPO tPF tAO Expr tAF {printf("Main detecte\n");fermer();}; 
+Main: tMAIN {ouvrir();}tPO tPF tAO Expr tAF {printf("Main detecte\n");corrige_labels();fermer();}; 
 
 
-Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
-        | Expr tPVIRG {printf("Expr tPVIRG\n");}
-        | IfCond tPF Else Body {add_label(get_profondeur());} Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
-        | IfCond tPF Body {add_label(get_profondeur());} Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");}
-        | IfCond tPF Else Body {add_label(get_profondeur()); printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");}
-        | IfCond tPF Body {add_label(get_profondeur()); printf("tIF tPO Expr tPF tAO Expr tAF \n");}
-        | Def{printf("Def\n");}
-        | WhileCond tPF Body {if_not_goto($1,get_profondeur()); free_tmp($1);printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
-        | WhileCond tPF Body {if_not_goto($1,get_profondeur()); free_tmp($1);} Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
-        | Var tEGAL Val{affectation($1,$3);printf("Var tEGAL Val");}
-        | tPRINT tPO tID tPF {print(get_index($3)),printf("tPRINT tPO tID tPF\n");};
+Expr: Expr tPVIRG Expr {}
+    | Expr tPVIRG {}
+    | IfCond tPF Else Body {afficher_cours(); add_label_named("IF_END");} Expr {}
+    | IfCondElse tPF Body {afficher_cours(); add_label_named("IF_END");} Expr {}
+    | IfCondElse tPF Else Body {afficher_cours(); add_label_named("IF_END");}
+    | IfCond tPF Body {afficher_cours(); add_label_named("IF_END");}
+    | Def {}
+    | tWHILE tPO Cond tPF Body {}
+    | tWHILE tPO Cond tPF Body Expr {}
+    | Var tEGAL Val {affectation($1, $3);}
+    | tPRINT tPO tID tPF {};
 
-Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("body");decrementer_profondeur();}
+Body: {incrementer_profondeur(); print_table_symbole();} tAO Expr tAF {decrementer_profondeur();};
 
-WhileCond: tWHILE tPO Cond {add_label(get_profondeur()); $$=aff_tmp(add_tmp(),$3);}
+IfCondElse: tIF tPO Cond {if_not_goto($3, "IF_ELSE");};
 
-IfCond: tIF tPO Cond {if_not_goto($3,get_profondeur());}
+IfCond: tIF tPO Cond {if_not_goto($3, "IF_ELSE");};
 
-Else: Body tELSE {else_goto(get_profondeur());add_label(get_profondeur());}
+Else: Body tELSE {else_goto("IF_END"); afficher_cours(); add_label_named("IF_ELSE");};
 
-Def : tINT Var_def tEGAL Val {affectation($2,$4);printf("tINT Var : %d tEGAL Val : %d\n", $2, $4);}
-      | tINT Var_def {printf("tINT Var\n");}
-      |tCONST Var_def tEGAL Val {printf("tCONST Var tEGAL Val\n");}
-      |tCONST Var_def {printf("tCONST Var\n");};
+Def : tINT Var_def tEGAL Val {affectation($2,$4);} //printf("tINT Var tEGAL Val\n");
+      | tINT Var_def {} //printf("tINT Var\n");
+      |tCONST Var_def tEGAL Val {} //printf("tCONST Var tEGAL Val\n");
+      |tCONST Var_def {}; //printf("tCONST Var\n");
 
 
-Val : tPO Val tPF {printf("tPO Val tPF\n");$$ = $2;}
-     |Val tADD Val {printf("Val tADD Val\n");$$=operation(0,$1,$3);}
-     |Val tSOU Val {printf("Val tSOU Val\n");$$=operation(1,$1,$3);}
-     |Val tMUL Val {printf("Val tMUL Val\n");$$=operation(2,$1,$3);}
-     |Val tDIV Val {printf("Val tDIV Val\n");$$=operation(3,$1,$3);}
-     |tID {printf("tID\n");$$=copy_to_tmp(get_index($1));}
-     |tNB {printf("tNB\n");$$=aff_tmp(add_tmp(), $1);};
+Val : tPO Val tPF {$$ = $2;} //printf("tPO Val tPF\n");
+     |Val tADD Val {$$=operation(0,$1,$3);} //printf("Val tADD Val\n");
+     |Val tSOU Val {$$=operation(1,$1,$3);} //printf("Val tSOU Val\n");
+     |Val tMUL Val {$$=operation(2,$1,$3);} // printf("Val tMUL Val\n");
+     |Val tDIV Val {$$=operation(3,$1,$3);} //printf("Val tDIV Val\n");
+     |tID {$$=copy_to_tmp(get_index($1));} //printf("tID\n");
+     |tNB {$$=aff_tmp(add_tmp(), $1);}; //printf("tNB\n");
 
-Var_def: tID tVIRG Var_def {$$=add_symbole($1);printf("tID tVIRG Var\n");}
+Var_def: tID tVIRG Var_def {$$=add_symbole($1);} //printf("tID tVIRG Var\n");
           |  tID {$$=add_symbole($1);};
 
 
-Var : tID tVIRG Var {$$ = get_index($1);printf("tID tVIRG Var\n");}
+Var : tID tVIRG Var {$$ = get_index($1);} //printf("tID tVIRG Var\n");
      |tID {$$ = get_index($1);};
 
-Cond : tEXCL tPO Cond tPF {printf("tEXCL tPO Cond tPF");}
-     | Cond tAND Cond {printf("Cond tAND Cond");$$=operation(2,$1,$3);}
-     | Cond tOR Cond {printf("Cond tOR Cond");$$=operation(0,$1,$3);}
-     | Val tEGAL tEGAL Val {printf("Val tEGAL tEGAL Val");$$=cmp(0,$1,$4);}
-     | Val tEXCL tEGAL Val {printf("Val tEXCL tEGAL Val");$$=cmp(5,$1,$4);}
-     | Val tSUP Val {printf("Val tSUP Val");$$=cmp(1,$1,$3);}
-     | Val tSUP tEGAL Val {printf("Val tSUP tEGAL Val");$$=cmp(2,$1,$4);}
-     | Val tINF Val {printf("Val tINF Val");$$=cmp(3,$1,$3);}
-     | Val tINF tEGAL Val {printf("Val tINF tEGAL Val");$$=cmp(4,$1,$4);}; 
+Cond : tEXCL tPO Cond tPF {} //printf("tEXCL tPO Cond tPF");
+     | Cond tAND Cond {$$=operation(2,$1,$3);} //printf("Cond tAND Cond");
+     | Cond tOR Cond {$$=operation(0,$1,$3);} //printf("Cond tOR Cond");
+     | Val tEGAL tEGAL Val {$$=cmp(0,$1,$4);} //printf("Val tEGAL tEGAL Val");
+     | Val tEXCL tEGAL Val {$$=cmp(5,$1,$4);} //printf("Val tEXCL tEGAL Val");
+     | Val tSUP Val {$$=cmp(1,$1,$3);} //printf("Val tSUP Val");
+     | Val tSUP tEGAL Val {$$=cmp(2,$1,$4);} //printf("Val tSUP tEGAL Val");
+     | Val tINF Val {$$=cmp(3,$1,$3);} // printf("Val tINF Val");
+     | Val tINF tEGAL Val {$$=cmp(4,$1,$4);}; //printf("Val tINF tEGAL Val");
         
 %%
 void yyerror(char *s) { fprintf(stderr, "%s\n", s);}

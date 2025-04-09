@@ -6,9 +6,10 @@
 #include "assembleur.h"
 
 int num_labels = 0;
+int en_cours =-1;
+int zone_jump=0;
 
 FILE *code_assembleur;
-int num_label = 0;
 
 void ouvrir()
 {
@@ -54,14 +55,12 @@ int operation(int op, int v1, int v2)
     int tmp = add_tmp();
     fprintf(code_assembleur, "%s %d %d %d\n", op_str, tmp, v1, v2);
     free_tmp(v2);
-    free_tmp(v1);
     return tmp;
 }
 
 int affectation(int v, int tmp)
 {
     fprintf(code_assembleur, "COP %d %d\n", v, tmp);
-    free_tmp(tmp);
     return v;
 }
 
@@ -76,20 +75,36 @@ void print(int v)
     fprintf(code_assembleur, "PRI %d\n", v);
 }
 
-void add_label(int label)
-{
-    fprintf(code_assembleur, "LBL%d ", label);
+void add_label()
+{  
+    printf("num labels : %d\n",num_labels);
+    fprintf(code_assembleur, "LBL%d ",en_cours+1);
+    num_labels +=1;
 }
 
-void if_not_goto(int cond, int label)
-{
-    fprintf(code_assembleur, "JMF %d LBL%d\n", cond, label);
-    free_tmp(cond);
+void add_label_fin(int cle)
+{   
+    printf("num labels : %d\n",num_labels);
+    if(cle==0){
+        zone_jump -=1;
+        fprintf(code_assembleur, "LBL%d ", en_cours+1);
+    } else {
+        zone_jump +=1;
+        fprintf(code_assembleur, "LBL%d ", en_cours+1);
+    } 
+    num_labels +=1;    
 }
 
-void else_goto(int label)
+
+void if_not_goto(int cond,int ajuster)
 {
-    fprintf(code_assembleur, "JMP LBL%d\n", label);
+    en_cours +=2-ajuster;
+    fprintf(code_assembleur, "JMF %d %d VOILA\n", cond, zone_jump+en_cours);
+}
+
+void else_goto()
+{
+    fprintf(code_assembleur, "JMP %d\n",num_labels);
 }
 
 int cmp(int op, int v1, int v2)
@@ -127,7 +142,6 @@ int cmp(int op, int v1, int v2)
     }
 
     free_tmp(v2);
-    free_tmp(v1);
     free_tmp(tmp2);
     return tmp;
 }
