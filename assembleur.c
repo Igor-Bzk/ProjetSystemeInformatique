@@ -54,12 +54,14 @@ int operation(int op, int v1, int v2)
     int tmp = add_tmp();
     fprintf(code_assembleur, "%s %d %d %d\n", op_str, tmp, v1, v2);
     free_tmp(v2);
+    free_tmp(v1);
     return tmp;
 }
 
 int affectation(int v, int tmp)
 {
     fprintf(code_assembleur, "COP %d %d\n", v, tmp);
+    free_tmp(tmp);
     return v;
 }
 
@@ -82,11 +84,12 @@ void add_label(int label)
 void if_not_goto(int cond, int label)
 {
     fprintf(code_assembleur, "JMF %d LBL%d\n", cond, label);
+    free_tmp(cond);
 }
 
 void else_goto(int label)
 {
-    fprintf(code_assembleur, "JMP %d\n", label);
+    fprintf(code_assembleur, "JMP LBL%d\n", label);
 }
 
 int cmp(int op, int v1, int v2)
@@ -124,6 +127,7 @@ int cmp(int op, int v1, int v2)
     }
 
     free_tmp(v2);
+    free_tmp(v1);
     free_tmp(tmp2);
     return tmp;
 }

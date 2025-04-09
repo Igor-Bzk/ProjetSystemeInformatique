@@ -13,7 +13,7 @@ int yylex();
 %token tERROR tIF tELSE tEXCL tSUP tINF tAND tOR
 %token <nb> tNB
 %token <str> tID
-%type <nb> Expr Main Def Var Cond Body Var_def Val
+%type <nb> Expr Main Def Var Cond Body Var_def Val WhileCond
 %right tMUL tDIV
 %right tADD tSOU
 %right tVIRG
@@ -28,23 +28,25 @@ Main: tMAIN {ouvrir();}tPO tPF tAO Expr tAF {printf("Main detecte\n");fermer();}
 
 Expr:   Expr tPVIRG Expr {printf("Expr tPVIRG Expr\n");}
         | Expr tPVIRG {printf("Expr tPVIRG\n");}
-        | IfCond tPF Else Body{add_label(get_profondeur());} Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
+        | IfCond tPF Else Body {add_label(get_profondeur());} Expr{printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF Expr\n");}
         | IfCond tPF Body {add_label(get_profondeur());} Expr{printf("tIF tPO Expr tPF tAO Expr tAF Expr \n");}
-        | IfCond tPF Else Body {printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");add_label(get_profondeur());}
-        | IfCond tPF Body {printf("tIF tPO Expr tPF tAO Expr tAF \n");add_label(get_profondeur());}
+        | IfCond tPF Else Body {add_label(get_profondeur()); printf("tIF tPO Expr tPF tAO Expr tAF tELSE tAO Expr tAF\n");}
+        | IfCond tPF Body {add_label(get_profondeur()); printf("tIF tPO Expr tPF tAO Expr tAF \n");}
         | Def{printf("Def\n");}
-        | tWHILE tPO Cond tPF Body {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
-        | tWHILE tPO Cond tPF Body Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
+        | WhileCond tPF Body {if_not_goto($1,get_profondeur()); free_tmp($1);printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
+        | WhileCond tPF Body {if_not_goto($1,get_profondeur()); free_tmp($1);} Expr {printf("tWHILE tPO Cond tPF tAO Expr tAF\n");}
         | Var tEGAL Val{affectation($1,$3);printf("Var tEGAL Val");}
         | tPRINT tPO tID tPF {print(get_index($3)),printf("tPRINT tPO tID tPF\n");};
 
-Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("Valeur recherchee : %d\n",get_index("a"));printf("body");decrementer_profondeur();}
+Body: {incrementer_profondeur();print_table_symbole();} tAO Expr tAF {print_table_symbole();printf("body");decrementer_profondeur();}
+
+WhileCond: tWHILE tPO Cond {add_label(get_profondeur()); $$=aff_tmp(add_tmp(),$3);}
 
 IfCond: tIF tPO Cond {if_not_goto($3,get_profondeur());}
 
-Else: Body tELSE{else_goto(get_profondeur());add_label(get_profondeur());}
+Else: Body tELSE {else_goto(get_profondeur());add_label(get_profondeur());}
 
-Def : tINT Var_def tEGAL Val {affectation($2,$4);printf("tINT Var tEGAL Val\n");}
+Def : tINT Var_def tEGAL Val {affectation($2,$4);printf("tINT Var : %d tEGAL Val : %d\n", $2, $4);}
       | tINT Var_def {printf("tINT Var\n");}
       |tCONST Var_def tEGAL Val {printf("tCONST Var tEGAL Val\n");}
       |tCONST Var_def {printf("tCONST Var\n");};

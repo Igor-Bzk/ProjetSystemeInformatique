@@ -11,11 +11,11 @@ typedef struct symbole
     int profondeur;
 } symbole;
 
-symbole symboles[16];
+symbole symboles[50];
 int profondeur_courante = 0;
 
 int indexe = 0;
-int indexe_tmp = 15;
+int indexe_tmp = 49;
 /*
 void f() {
     int a;
@@ -84,8 +84,12 @@ void incrementer_profondeur()
 
 void print_table_symbole()
 {
-    printf("profondeur_courante: %d, indexe :%d\n", profondeur_courante, indexe);
+    printf("profondeur_courante: %d, indexe :%d, indexe_tmp: %d\n", profondeur_courante, indexe, indexe_tmp);
     for (int i = 0; i < indexe; i++)
+    {
+        printf("%s %d\n", symboles[i].nom, symboles[i].profondeur);
+    }
+    for (int i = 15; i > indexe_tmp; i--)
     {
         printf("%s %d\n", symboles[i].nom, symboles[i].profondeur);
     }
